@@ -1,0 +1,68 @@
+{% extends  'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% block sidebar %}
+{% endblock %} 
+
+{% block content %}
+
+<br>
+<center><h1>Pacientes</h1></center>
+<br>
+<hr>
+<div class="row" style="margin: auto;">
+    <div class="col-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        
+        <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Pacientes registrados</a>
+        <a class="nav-link " id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Registrar paciente</a>
+        
+      </div>
+      
+    </div>
+    
+    <div class="col-8">
+      
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade " id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-profile-tab"><form action="{% url 'pacientes' %}" method="POST">
+          {% csrf_token %}
+          
+
+          {{formu|crispy}}
+        <button type="submit" class="btn btn-primary">Registrar</button>
+          </form></div>
+        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+            <table class="table" >
+                <thead class="thead-dark">
+                  
+                  <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Mascota</th>
+                    <th scope="col">Sexo</th>
+                    <th scope="col">Raza</th>
+                    <th scope="col">Nacimiento</th>
+                    <th scope="col">Opciones</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for c in paciente %}
+                  <tr>
+
+                    <td>{{ c.nombre }}</td>
+                    <td>{{ c.tipo_mascota }}</td>
+                    <td>{{ c.sexo_mascota }}</td>
+                    <td>{{ c.raza }}</td>
+                    <td>{{ c.fecha_nacimiente }}</td>
+                    <td>
+                      <a class="btn btn-primary" href="{% url 'modificar_pacientes' c.id %}" role="button">Modificar</a>
+                      <a class="btn btn-primary" href="{% url 'eliminar_pacientes' c.id %}" role="button">Eliminar</a>
+                    
+                    </td>  
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

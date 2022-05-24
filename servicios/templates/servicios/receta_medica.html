@@ -1,0 +1,61 @@
+{% extends  'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% block sidebar %}
+{% endblock %} 
+
+{% block content %}
+
+<br>
+<center><h1>Formulas Medicas</h1></center>
+<br>
+<hr>
+<div class="row" style="margin: auto;">
+    <div class="col-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Formulas agendadas</a>
+        <a class="nav-link " id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Crear Formulas</a>
+        
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade " id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-profile-tab"><form action="{% url 'receta' %}" method="POST">
+          {% csrf_token %}
+          
+
+          {{formu|crispy}}
+        <button type="submit" class="btn btn-primary">Registrar</button>
+          </form></div>
+        <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+        
+            <table class="table" >
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Paciente</th>
+                    <th scope="col">Medicina</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for c in receta %}
+                  <tr>
+
+                    <td>{{ c.paciente }}</td>
+                    <td>{{ c.medicina }}</td>
+                    <td>{{ c.cantidad }}</td>
+                    <td>{{ c.descripcion }}</td>
+                    <td>
+                      <a class="btn btn-primary" href="{% url 'modificar_receta' c.id %}" role="button">Modificar</a>
+                      <a class="btn btn-primary" href="{% url 'eliminar_receta' c.id %}" role="button">Eliminar</a>
+                    
+                    </td>  
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
